@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PT_Serif } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "@/components/Navbar";
 
 const ptSerif = PT_Serif({
   subsets: ["latin"],
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${ptSerif.className} antialiased`}>
+        <Navbar />
         {children}
       </body>
     </html>
