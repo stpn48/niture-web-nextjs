@@ -7,8 +7,8 @@ type Props = {
 
 const navLinks = [
   {
-    name: "About",
-    href: "/about",
+    name: "Store",
+    href: "/store",
   },
   {
     name: "Contact",
@@ -19,7 +19,7 @@ const navLinks = [
 export function Navbar({ navLinksVisible = true }: Props) {
   return (
     <div className="bg-white px-5 py-2 justify-between h-fit w-full flex items-center">
-      <h1 className="text-lg cursor-pointer">Niture</h1>
+      <Link href={"/"} className="text-lg cursor-pointer">Niture</Link>
       <div className="gap-4 flex items-center">
         {navLinksVisible &&
           navLinks.map((link) => (
