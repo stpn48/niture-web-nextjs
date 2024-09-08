@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.secondary-section-bg {
+  background-color: #F7F7F7;
+}
