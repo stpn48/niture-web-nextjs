@@ -1,21 +1,5 @@
-import { AboutSection } from "@/components/AboutSection";
-import { ClientFeedbackSection } from "@/components/ClientFeedbackSection";
-import { CollectionsSection } from "@/components/CollectionsSection";
-import { FeaturedItems } from "@/components/FeaturedItems";
-import { Footer } from "@/components/Footer";
-import { HeroSection } from "@/components/HeroSection";
-import { NewsletterSignupSection } from "@/components/NewsletterSignupSection";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen">
-      <HeroSection />
-      <FeaturedItems />
-      <CollectionsSection />
-      <AboutSection />
-      <ClientFeedbackSection />
-      <NewsletterSignupSection />
-      <Footer />
-    </div>
-  );
+  redirect("/home");
 }
