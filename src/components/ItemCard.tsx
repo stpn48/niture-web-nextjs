@@ -4,10 +4,11 @@ import React from "react";
 
 export function ItemCard({ item }: { item: storeItem }) {
   return (
-    <div className="min-w-[300px] p-4 h-[400px] bg-white rounded-lg shadow-md">
+    <div className="w-[350px] p-4 h-[400px] bg-white rounded-lg shadow-md">
       <Image
-        width={300}
-        height={250}
+        width={1}
+        height={1}
+        className="h-full w-full"
         objectFit="cover"
         src={item.imgSrc}
         alt={item.name}
