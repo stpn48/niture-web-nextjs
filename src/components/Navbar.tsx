@@ -18,7 +18,7 @@ const navLinks = [
 
 export function Navbar({ navLinksVisible = true }: Props) {
   return (
-    <div className="bg-white px-5 py-2 justify-between h-fit w-full flex items-center">
+    <div className="bg-white px-5 fixed z-10 py-2 justify-between h-fit w-full flex items-center">
       <Link href={"/"} className="text-lg cursor-pointer">Niture</Link>
       <div className="gap-4 flex items-center">
         {navLinksVisible &&
