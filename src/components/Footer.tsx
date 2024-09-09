@@ -31,7 +31,7 @@ export function Footer({}: Props) {
             simplicity, and timeless beauty.
           </p>
         </div>
-        <div className="md:block hidden">
+        <div className="lg:block hidden">
           <Image
             src="/NitureSignature.png"
             alt="Niture Signature"
