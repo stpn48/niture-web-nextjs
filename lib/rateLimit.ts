@@ -1,5 +1,4 @@
-// lib/rateLimit.ts
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 
 const rateLimiter = new RateLimiterMemory({
@@ -8,16 +7,16 @@ const rateLimiter = new RateLimiterMemory({
 });
 
 export async function rateLimit(
-  req: NextApiRequest,
-  res: NextApiResponse,
+  req: NextRequest,
+  _res: NextResponse,
   next: () => void
 ) {
-  const ip = (req.headers["x-forwarded-for"] as string) || "unknown";
+  const ip = req.headers.get("x-forwarded-for") || "unknown";
 
   try {
     await rateLimiter.consume(ip);
     next();
   } catch (rejRes) {
-    res.status(429).json({ message: "Too Many Requests" });
+    NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 }
