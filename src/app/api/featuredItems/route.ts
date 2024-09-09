@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { rateLimit } from "../../../../lib/rateLimit";
 
 const FEATURED_ITEMS = [
   {
@@ -48,6 +49,10 @@ const FEATURED_ITEMS = [
   },
 ];
 
-export async function GET() {
-  return NextResponse.json(FEATURED_ITEMS); 
+export async function GET(req: NextRequest, res: NextResponse) { 
+  await new Promise<void>((resolve) => {
+    rateLimit(req, res, () => resolve());
+  });
+
+  return NextResponse.json(FEATURED_ITEMS);
 }
