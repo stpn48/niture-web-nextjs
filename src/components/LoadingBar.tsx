@@ -3,7 +3,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
 const variants = {
   initial: {
@@ -14,9 +16,9 @@ const variants = {
   },
 };
 
-export function LoadingBar({}: Props) {
+export function LoadingBar({className}: Props) {
   return (
-    <div className="w-20 h-px bg-[#e2e2e2]">
+    <div className={"w-20 h-px bg-[#e2e2e2] " + className}>
       <motion.div
         variants={variants}
         initial={"initial"}
