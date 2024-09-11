@@ -5,7 +5,8 @@ export type storeItem = {
   alt: string;
   description: string;
   price: string;
-}
+  tags: string[]
+};
 
 export type collection = {
   id: number;
@@ -14,4 +15,4 @@ export type collection = {
   alt: string;
   description: string;
   items: storeItem[];
-}
+};
