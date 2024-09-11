@@ -5,17 +5,17 @@ type Props = {};
 
 export function ShowcaseSection({}: Props) {
   return (
-    <div className="flex w-full flex-col justify-center items-center lg:h-[700px] h-fit py-[60px] mt-[80px]">
-      <div className="lg:w-[800px] w-fit relative">
+    <div className="mt-[80px] flex h-fit w-full flex-col items-center justify-center py-[60px] lg:h-[700px]">
+      <div className="relative w-fit lg:w-[800px]">
         <Image
-          className="lg:absolute lg:top-[50px] mb-10 lg:left-[50px]"
+          className="mb-10 lg:absolute lg:left-[50px] lg:top-[50px]"
           src={"/showcase-1.jpg"}
           alt="showcase1"
           width={300}
           height={1}
         />
         <Image
-          className="lg:absolute lg:top-[200px] lg:left-[450px]"
+          className="lg:absolute lg:left-[450px] lg:top-[200px]"
           src={"/showcase-2.jpg"}
           alt="showcase2"
           width={300}
