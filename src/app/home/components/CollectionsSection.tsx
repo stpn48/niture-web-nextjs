@@ -9,12 +9,12 @@ export async function CollectionsSection() {
   console.log(collections);
 
   return (
-    <div className="w-full flex px-20 justify-center py-[60px] gap-40 flex-col">
-      <h1 className="text-lg w-full flex justify-center -mb-16">Collections</h1>
+    <div className="flex w-full flex-col justify-center gap-40 px-20 py-[60px]">
+      <h1 className="-mb-16 flex w-full justify-center text-lg">Collections</h1>
       {collections.map((collection, collectionIndex) => (
         <div
           key={collection.id}
-          className={`flex justify-center lg:flex-row flex-col-reverse items-center gap-10 ${
+          className={`flex flex-col-reverse items-center justify-center gap-10 lg:flex-row ${
             collectionIndex % 2 === 0 ? "lg:flex-row-reverse" : ""
           }`}
         >
@@ -25,9 +25,11 @@ export async function CollectionsSection() {
             alt={collection.alt}
             className="mr-4"
           />
-          <div className="flex flex-col max-w-[500px]">
-            <h2 className="text-xl mb-2 font-bold">{collection.name}</h2>
-            <p className="text-base secondary-text-color">{collection.description}</p>
+          <div className="flex max-w-[500px] flex-col">
+            <h2 className="mb-2 text-xl font-bold">{collection.name}</h2>
+            <p className="secondary-text-color text-base">
+              {collection.description}
+            </p>
           </div>
         </div>
       ))}
