@@ -26,24 +26,24 @@ export function ItemCard({ item }: { item: storeItem }) {
       variants={variants}
       initial={"initial"}
       animate={"animate"}
-      className="w-[300px] shadow-spread p-4 h-[350px] bg-white rounded-lg"
+      className="shadow-spread h-[350px] w-[300px] rounded-lg bg-white p-4"
     >
-      <div className="w-full h-[190px] relative overflow-hidden">
+      <div className="relative h-[190px] w-full overflow-hidden">
         <Image
           layout="fill"
           objectFit="cover"
-          className="w-full h-full"
+          className="h-full w-full"
           src={item.imgSrc}
           alt={item.name}
         />
       </div>
       <div className="mb-2">
-        <h1 className="font-bold mb-1">{item.name}</h1>
-        <p className="text-sm text-[#494949] text-justify">
+        <h1 className="mb-1 font-bold">{item.name}</h1>
+        <p className="text-justify text-sm text-[#494949]">
           {item.description}
         </p>
       </div>
-      <h1 className="w-full flex justify-end pr-2">{item.price}</h1>
+      <h1 className="flex w-full justify-end pr-2">{item.price}</h1>
     </motion.div>
   );
 }
