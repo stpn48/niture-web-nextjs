@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .secondary-section-bg {
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
 }
 
 .secondary-text-color {
