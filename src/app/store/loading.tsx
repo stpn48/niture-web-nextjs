@@ -5,7 +5,7 @@ type Props = {};
 
 export default function loading({}: Props) {
   return (
-    <div className="w-screen gap-2 h-screen flex flex-col justify-center items-center p-10">
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-2 p-10">
       <h1>Niture</h1>
       <LoadingBar />
     </div>
