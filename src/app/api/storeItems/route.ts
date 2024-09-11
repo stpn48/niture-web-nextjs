@@ -576,37 +576,38 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     const searchParams = req.nextUrl.searchParams;
     const pageQuery = searchParams.get("page") || "1";
-    const searchQuery = searchParams.get("q");
-    const tagsQuery = searchParams.get("tags");
+    const searchQuery = searchParams.get("q") || "";
+    const tagsQuery = searchParams.get("tags") || "[]";
 
-    if (tagsQuery) {
-      const tags: string[] = JSON.parse(tagsQuery);
-      const filteredItems = STORE_ITEMS.filter((item) =>
-        tags.some((tag: string) => item.tags.includes(tag))
-      );
-      return NextResponse.json(filteredItems);
-    }
+    let filteredItems = STORE_ITEMS;
 
     if (searchQuery) {
-      const filteredItems = STORE_ITEMS.filter(
+      filteredItems = STORE_ITEMS.filter(
         (item) =>
           item.name
             .replace(/\s+/g, "")
             .toLowerCase()
-            .includes(searchQuery.replace(/\s+/g, "").toLowerCase()) // .replace(/\s+/g, '') removes all whitespace
+            .includes(searchQuery.replace(/\s+/g, "").toLowerCase()), // .replace(/\s+/g, '') removes all whitespace
       );
-      return NextResponse.json(filteredItems);
     }
 
-    const pageNumber = parseInt(pageQuery);
+    if (tagsQuery) {
+      const tags: string[] = JSON.parse(tagsQuery);
+      filteredItems = filteredItems.filter((item) =>
+        tags.every((tag: string) => item.tags.includes(tag)),
+      );
+    }
 
+
+    const pageNumber = parseInt(pageQuery);
     const startIndex = (pageNumber - 1) * PAGE_SIZE;
     const endIndex = startIndex + PAGE_SIZE;
-    const paginatedStoreItems = STORE_ITEMS.slice(startIndex, endIndex);
 
-    return NextResponse.json(paginatedStoreItems);
+    const paginatedItems = filteredItems.slice(startIndex, endIndex);
+
+    return NextResponse.json(paginatedItems);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 }
