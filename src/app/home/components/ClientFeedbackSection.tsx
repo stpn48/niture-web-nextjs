@@ -30,19 +30,19 @@ const reviews = [
   },
 ];
 
-export function  ClientFeedbackSection() {
+export function ClientFeedbackSection() {
   return (
-    <div className="py-[60px] px-20">
-      <h1 className="text-lg w-full flex justify-center mb-10">
+    <div className="px-20 py-[60px]">
+      <h1 className="mb-10 flex w-full justify-center text-lg">
         Client Feedback
       </h1>
-      <div className="flex gap-16 flex-wrap justify-center secondary-text-color">
+      <div className="secondary-text-color flex flex-wrap justify-center gap-16">
         {reviews.map((review) => (
           <div className="flex w-[250px] flex-col gap-5">
             <p key={review.id} className="text-justify italic">
               "{review.review}"
             </p>
-            <h2 className="text-black not-italic">-{review.name}</h2>
+            <h2 className="not-italic text-black">-{review.name}</h2>
           </div>
         ))}
       </div>
