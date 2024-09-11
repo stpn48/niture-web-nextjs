@@ -2,9 +2,9 @@ import React from "react";
 
 export function AboutSection() {
   return (
-    <div className="px-20 flex flex-col items-center py-[60px] secondary-section-bg">
-      <h1 className="text-lg w-full flex justify-center mb-10">About Us</h1>
-      <div className="flex flex-col gap-10 secondary-text-color max-w-[750px] text-justify">
+    <div className="secondary-section-bg flex flex-col items-center px-20 py-[60px]">
+      <h1 className="mb-10 flex w-full justify-center text-lg">About Us</h1>
+      <div className="secondary-text-color flex max-w-[750px] flex-col gap-10 text-justify">
         <p>
           Founded in 2017, our company began with a simple goal: to create
           high-quality, functional furniture that could fit seamlessly into any
