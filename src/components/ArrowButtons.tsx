@@ -17,12 +17,12 @@ export function ArrowButtons({
   moveRight,
 }: Props) {
   return (
-    <div className="absolute top-[50%] px-2 w-full flex justify-between">
+    <div className="absolute top-[50%] flex w-full justify-between px-2">
       <button
         onClick={moveLeft}
         className={`${
           currentScrollIndex === 0
-            ? "opacity-0 pointer-events-none"
+            ? "pointer-events-none opacity-0"
             : "opacity-100"
         }`}
       >
@@ -32,7 +32,7 @@ export function ArrowButtons({
       <button
         onClick={moveRight}
         className={`${
-          lastItemVisible ? "opacity-0 pointer-events-none" : "opacity-100"
+          lastItemVisible ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
         <Image src="/arrRight.svg" width={20} height={20} alt="arrowRight" />
