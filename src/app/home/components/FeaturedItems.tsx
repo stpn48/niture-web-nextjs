@@ -4,13 +4,13 @@ import { storeItem } from "@/app/types";
 
 export async function FeaturedItems() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/featuredItems`
+    `${process.env.NEXT_PUBLIC_API_URL}/api/featuredItems`,
   );
   const featuredItems: storeItem[] = await res.json();
 
   return (
-    <div className="w-full secondary-section-bg py-[50px] overflow-hidden relative">
-      <h1 className="text-lg w-full flex justify-center">Featured Items</h1>
+    <div className="secondary-section-bg relative w-full overflow-hidden py-[50px]">
+      <h1 className="flex w-full justify-center text-lg">Featured Items</h1>
       <FeaturedItemsCarousel featuredItems={featuredItems} />
     </div>
   );
