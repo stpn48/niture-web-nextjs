@@ -1,45 +1,41 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { FilterMenu } from "./FilterMenu";
+import { Tag } from "./Tag";
 
 type Props = {};
 
-const filterOptions = [
-  '2024collection', 'coffeeTable', 'glass', 'modern', 'minimalist', 
-  'sectionalSofa', 'luxury', 'leather', 'diningTable', 'marble', 
-  'tvStand', 'oak', 'storage', 'armchair', 'velvet', 'patioSet', 
-  'outdoor', 'rattan', 'weather-resistant', 'bookshelf', 
-  'contemporary', 'floorLamp', 'lighting', 'brass', 'consoleTable', 
-  'wood', 'walnut', 'bedsideTable', 'reclaimedWood', 'farmhouse', 
-  'loungeChair', 'midCentury', 'wallShelf', 'ottoman', 'tufted', 
-  'extendable', 'chaiseLounge', 'barStool', 'chrome', 'dresser', 
-  'solidWood', 'bedFrame', 'metal', 'industrial', 'living room', 
-  'seating', 'vanity', 'desk', 'home office', 'solid wood', 
-  'geometric', 'plush', 'convertible', 'sofa', 'queen-sized', 
-  'guest room', 'natural', 'indoor', 'wall-mounted', 'compartments', 
-  'classic', 'wooden', 'rocking chair', 'ergonomic', 'display', 
-  'cabinet', 'LED lighting', 'desk chair', 'lumbar support', 
-  'executive', 'woven', 'jute', 'rug', 'corner', 'space-saving', 
-  'five tiers', 'console table', 'glass-top', 'metal legs', 
-  'lounge chair', 'reclining', 'loveseat', 'USB ports', 
-  'coffee table', 'rustic', 'folding', 'dining table', 'expandable', 
-  'small spaces', 'swivel', 'office chair', 'mesh', 'adjustable armrests', 
-  'TV stand', 'mid-century modern', 'sleeper sofa', 'area rug', 
-  'wool', 'warmth', 'console cabinet', 'sliding doors', 
-  'brass accents', 'dining set', 'upholstered', 'bench', 
-  'button-tufted', 'footrest', 'bamboo', 'side table', 'sustainable', 
-  'recliner', 'comfortable', 'king bed', 'luxurious', 
-  'high headboard', 'round', 'pedestal base', 'fabric', 'cozy', 
-  'supportive', 'ladder', 'shelf', 'compact', 'chaise', 
-  'sectional sofa', 'wide seats', 'accent table', 'gold metal', 
-  'decorative'
-];
-
-
 export function FilterBar({}: Props) {
+  const [filterMenuVisible, setFilterMenuVisible] = useState(false);
+  const [activeTags, setActiveTags] = useState<string[]>([]);
+
+  const handleTagClick = useCallback(
+    (tag: string) => {
+      if (!activeTags.includes(tag)) {
+        setActiveTags([...activeTags, tag]);
+      }
+    },
+    [activeTags]
+  );
+
+  const removeTag = useCallback(
+    (tag: string) => {
+      setActiveTags(activeTags.filter((t) => t !== tag));
+    },
+    [activeTags]
+  );
+
+  const handleFilterClick = useCallback(
+    (e: any) => {
+      setFilterMenuVisible(!filterMenuVisible);
+    },
+    [filterMenuVisible]
+  );
+
   return (
-    <div className="w-full flex mb-10 items-center px-4 bg-[#f5f5f5] rounded-sm h-10">
-      <button className="flex items-center gap-2">
+    <div className="w-full flex relative mb-10 items-center py-6 px-4 bg-[#f5f5f5] rounded-sm h-10">
+      <button className="flex items-center gap-2" onClick={handleFilterClick}>
         Filter
         <svg
           width="20"
@@ -56,6 +52,22 @@ export function FilterBar({}: Props) {
           />
         </svg>
       </button>
+      <div className="flex gap-2 flex-wrap">
+        {activeTags.map((tag, index) => (
+          <Tag
+            key={index}
+            tag={tag}
+            handleTagClick={handleTagClick}
+            removeTag={removeTag}
+          />
+        ))}
+      </div>
+      {filterMenuVisible && (
+        <FilterMenu
+          closeMenu={() => setFilterMenuVisible(false)}
+          handleTagClick={handleTagClick}
+        />
+      )}
     </div>
   );
 }
