@@ -1,12 +1,16 @@
 import React from "react";
 
-type Props = {tag: string, handleTagClick: (tag: string) => void, removeTag: (tag: string) => void};
+type Props = {
+  tag: string;
+  handleTagClick?: (tag: string) => void;
+  removeTag: (tag: string) => void;
+};
 
-export function Tag({tag, handleTagClick, removeTag}: Props) {
+export function Tag({ tag, handleTagClick, removeTag }: Props) {
   return (
     <div
-      className="bg-[#262626] flex gap-4 items-center rounded-full px-2 py-1 text-white text-xs"
-      onClick={() => handleTagClick(tag)}
+      className="flex items-center gap-2 rounded-full bg-[#262626] px-3 py-1 text-xs text-white"
+      onClick={() => handleTagClick && handleTagClick(tag)}
     >
       <p>{tag}</p>
       <svg
