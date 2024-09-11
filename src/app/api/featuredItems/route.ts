@@ -49,7 +49,7 @@ const FEATURED_ITEMS = [
   },
 ];
 
-export async function GET(req: NextRequest, res: NextResponse) { 
+export async function GET(req: NextRequest, res: NextResponse) {
   await new Promise<void>((resolve) => {
     rateLimit(req, res, () => resolve());
   });
