@@ -36,7 +36,7 @@ export function FeaturedItemsCarousel({ featuredItems }: Props) {
           setLastItemVisible(false);
         }
       },
-      { threshold: 1 }
+      { threshold: 1 },
     );
 
     addEventListener("resize", () => {
@@ -59,7 +59,7 @@ export function FeaturedItemsCarousel({ featuredItems }: Props) {
   }, []);
 
   return (
-    <div className="w-full md:overflow-x-hidden overflow-scroll overflow-y-visible"> 
+    <div className="w-full overflow-scroll overflow-y-visible md:overflow-x-hidden">
       <div
         className="flex gap-4 overflow-y-visible px-20 transition-all duration-500"
         style={{ transform: `translateX(-${currentScrollIndex * 50}%)` }}
@@ -74,7 +74,7 @@ export function FeaturedItemsCarousel({ featuredItems }: Props) {
           </div>
         ))}
       </div>
-      <div className="md:block hidden">
+      <div className="hidden md:block">
         <ArrowButtons
           lastItemVisible={lastItemVisible}
           currentScrollIndex={currentScrollIndex}
