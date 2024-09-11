@@ -16,15 +16,15 @@ const variants = {
   },
 };
 
-export function LoadingBar({className}: Props) {
+export function LoadingBar({ className }: Props) {
   return (
-    <div className={"w-20 h-px bg-[#e2e2e2] " + className}>
+    <div className={"h-px w-20 bg-[#e2e2e2] " + className}>
       <motion.div
         variants={variants}
         initial={"initial"}
         animate={"animate"}
         transition={{ duration: 3 }}
-        className="bg-[#9c7a54] w-20 h-px animate-pulse"
+        className="h-px w-20 animate-pulse bg-[#9c7a54]"
       ></motion.div>
     </div>
   );
