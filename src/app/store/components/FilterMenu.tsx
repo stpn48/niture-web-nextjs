@@ -1,6 +1,7 @@
+"use client";
+
 import { Button } from "@/components/Button";
-import { div } from "framer-motion/client";
-import React from "react";
+import React, { useCallback } from "react";
 
 const filterOptions = [
   "2024collection",
@@ -134,21 +135,35 @@ const filterOptions = [
   "decorative",
 ];
 
-type Props = { closeMenu: () => void, handleTagClick: (tag: string) => void };
+type Props = {
+  closeMenu: () => void;
+  handleTagClick: (tag: string) => void;
+  activeTags: string[];
+};
 
-export function FilterMenu({ closeMenu, handleTagClick }: Props) {
+export function FilterMenu({ closeMenu, handleTagClick, activeTags }: Props) {
+  
+  const handleTagClickCallback = useCallback(
+    (tag: string) => {
+      handleTagClick(tag);
+      closeMenu();
+    },
+    [handleTagClick, closeMenu],
+  );
+
   return (
     <>
       <div
-        className="w-screen h-screen inset-0 fixed z-10"
+        className="fixed inset-0 z-10 h-screen w-screen"
         onClick={closeMenu}
       ></div>
-      <div className="top-[48px] px-10 shadow-md rounded-b-md absolute h-[500px] justify-center overflow-scroll overflow-x-hidden flex flex-wrap gap-2 p-2 text-sm w-[500px] z-10 bg-[#f5f5f5]">
+      <div className="absolute top-[48px] z-10 flex h-[500px] w-[500px] flex-wrap justify-center gap-1 overflow-scroll overflow-x-hidden rounded-b-md bg-[#f5f5f5] p-2 px-10 text-sm shadow-md">
         {filterOptions.map((option, index) => (
           <Button
+            disabled={activeTags.includes(option)}
             key={index}
-            onClick={() => handleTagClick(option)}
-            className="px-2 py-1 rounded-full w-fit text-sm"
+            onClick={() => handleTagClickCallback(option)}
+            className="w-fit rounded-full py-10 text-xs"
           >
             {option}
           </Button>
