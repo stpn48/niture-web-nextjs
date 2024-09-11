@@ -9,7 +9,7 @@ const rateLimiter = new RateLimiterMemory({
 export async function rateLimit(
   req: NextRequest,
   _res: NextResponse,
-  next: () => void
+  next: () => void,
 ) {
   const ip = req.headers.get("x-forwarded-for") || "unknown";
 
