@@ -1,31 +1,46 @@
+"use client";
+
 import { Button } from "@/components/Button";
-import { useStoreItems } from "@/zustand/useStoreItems";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-type Props = {};
+type Props = {
+  query: string;
+};
 
-export function SearchBar({}: Props) {
+export function SearchBar({ query: initialQuery }: Props) {
+  const [inputValue, setInputValue] = useState(initialQuery);
 
-  const {query, setQuery} = useStoreItems();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (inputValue) params.set("q", inputValue);
+      else params.delete("q");
+      router.push(`/store?${params.toString()}`);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [inputValue, router]);
 
   return (
     <div className="mb-4 flex w-full items-center justify-center">
       <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         placeholder="Search"
         className="bg-[#ffffff] px-4 py-1 outline-none"
         type="text"
       />
       <img
-        onClick={() => setQuery("")}
-        className={`cursor-pointer px-4 ${query ? "" : "opacity-0"}`}
+        onClick={() => setInputValue("")}
+        className={`cursor-pointer px-4 ${inputValue ? "" : "opacity-0"}`}
         src="/xCircle.svg"
         alt="xCircleIcon"
       />
-      <Button className="h-fit w-fit">
-        Search
-      </Button>{" "}
+      <Button className="h-fit w-fit">Search</Button>{" "}
       {/* TODO: Add search icon instead of button */}
     </div>
   );
