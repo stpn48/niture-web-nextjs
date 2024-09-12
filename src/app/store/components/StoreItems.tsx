@@ -2,17 +2,59 @@
 
 import { ItemCard } from "@/components/ItemCard";
 import { LoadingBar } from "@/components/LoadingBar";
-import { useStoreItems } from "@/zustand/useStoreItems";
-import React from "react";
+import { storeItem } from "@/app/types";
+import React, { useCallback, useEffect, useState } from "react";
 
 const MemoItemCard = React.memo(ItemCard);
 
-export function StoreItems() {
+type Props = {
+  items: storeItem[];
+};
 
-  const {items, loading} = useStoreItems();
+export function StoreItems({ items: initialItems }: Props) {
+  const [items, setItems] = useState(initialItems);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
+  const fetchMoreItems = useCallback(async () => {
+    setLoading(true);
 
-  // TODO: Implement infinite scroll
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/storeItems?page=${page}`,
+      );
+      const newItems = await res.json();
+
+      if (newItems.length === 0) {
+        setHasMore(false);
+      } else {
+        setItems((prevItems) => [...prevItems, ...newItems]);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    function handleScroll() {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.body.scrollHeight;
+
+      if (scrollPosition + windowHeight >= documentHeight) {
+        fetchMoreItems();
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       <div className="mb-10 flex flex-wrap justify-center gap-10">
