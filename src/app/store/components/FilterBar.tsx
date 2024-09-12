@@ -1,25 +1,39 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FilterMenu } from "./FilterMenu";
-import { useStoreItems } from "@/zustand/useStoreItems";
 import { Tag } from "./Tag";
+import { useRouter, useSearchParams } from "next/navigation";
 
-type Props = {};
+type Props = {
+  activeTags: string[];
+};
 
-export function FilterBar({}: Props) {
-  const { activeTags, setActiveTags } = useStoreItems();
-
+export function FilterBar({ activeTags: initialActiveTags }: Props) {
   const [filterMenuVisible, setFilterMenuVisible] = useState(false);
+  const [activeTags, setActiveTags] = useState(initialActiveTags);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleTagClick = useCallback((tag: string) => {
-    setActiveTags(prev => [...prev, tag]); 
-  }, [setActiveTags]);
+    setActiveTags((prevTags) => [...prevTags, tag]);
+  }, []);
 
-  const removeTag = useCallback((tag: string) => {
-    const newTags = activeTags.filter((t) => t !== tag);
-    setActiveTags(newTags);
-  }, [activeTags, setActiveTags]);
+  const handleRemoveTag = useCallback((tag: string) => {
+    setActiveTags((prevTags) => prevTags.filter((t) => t !== tag));
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (activeTags.length) params.set("tags", JSON.stringify(activeTags));
+      else params.delete("tags");
+      router.push(`/store?${params.toString()}`);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [activeTags, router, searchParams]);
 
   return (
     <div className="relative mb-10 flex h-10 w-full items-center rounded-sm bg-[#f5f5f5] px-4 py-6">
@@ -46,11 +60,7 @@ export function FilterBar({}: Props) {
       </button>
       <div className="flex flex-wrap gap-2">
         {activeTags.map((tag, index) => (
-          <Tag
-            key={index}
-            tag={tag}
-            removeTag={removeTag}
-          />
+          <Tag key={index} tag={tag} removeTag={handleRemoveTag} />
         ))}
       </div>
       {filterMenuVisible && (
