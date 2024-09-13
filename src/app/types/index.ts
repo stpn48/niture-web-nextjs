@@ -4,8 +4,13 @@ export type storeItem = {
   imgSrc: string;
   alt: string;
   description: string;
+  detailedDescription: string;
   price: string;
   tags: string[]
+};
+
+export type cartItem = storeItem & {
+  quantity: number;
 };
 
 export type collection = {
@@ -16,3 +21,5 @@ export type collection = {
   description: string;
   items: storeItem[];
 };
+
+
