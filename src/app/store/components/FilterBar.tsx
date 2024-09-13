@@ -5,16 +5,14 @@ import { FilterMenu } from "./FilterMenu";
 import { Tag } from "./Tag";
 import { useRouter, useSearchParams } from "next/navigation";
 
-type Props = {
-  activeTags: string[];
-};
-
-export function FilterBar({ activeTags: initialActiveTags }: Props) {
-  const [filterMenuVisible, setFilterMenuVisible] = useState(false);
-  const [activeTags, setActiveTags] = useState(initialActiveTags);
-
+export function FilterBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const [filterMenuVisible, setFilterMenuVisible] = useState(false);
+  const [activeTags, setActiveTags] = useState<string[]>(
+    JSON.parse(searchParams.get("tags") || "[]"),
+  );
 
   const handleTagClick = useCallback((tag: string) => {
     setActiveTags((prevTags) => [...prevTags, tag]);
@@ -25,14 +23,10 @@ export function FilterBar({ activeTags: initialActiveTags }: Props) {
   }, []);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (activeTags.length) params.set("tags", JSON.stringify(activeTags));
-      else params.delete("tags");
-      router.push(`/store?${params.toString()}`);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
+    const params = new URLSearchParams(searchParams.toString());
+    if (activeTags.length) params.set("tags", JSON.stringify(activeTags));
+    else params.delete("tags");
+    router.push(`/store?${params.toString()}`);
   }, [activeTags, router, searchParams]);
 
   return (
