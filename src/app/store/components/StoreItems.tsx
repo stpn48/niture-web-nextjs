@@ -3,69 +3,97 @@
 import { ItemCard } from "@/components/ItemCard";
 import { LoadingBar } from "@/components/LoadingBar";
 import { storeItem } from "@/app/types";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { fetchStoreItems } from "@/app/utils/fetchStoreItems";
 
 const MemoItemCard = React.memo(ItemCard);
 
 type Props = {
-  items: storeItem[];
+  initialItems: storeItem[];
 };
 
-export function StoreItems({ items: initialItems }: Props) {
-  const [items, setItems] = useState(initialItems);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+export function StoreItems({ initialItems }: Props) {
+  const userSearchParams = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState(
+    userSearchParams.get("q") || "",
+  );
+  const [activeTags, setActiveTags] = useState(
+    JSON.parse(userSearchParams.get("tags") || "[]"),
+  );
 
-  const fetchMoreItems = useCallback(async () => {
-    setLoading(true);
-
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/storeItems?page=${page}`,
-      );
-      const newItems = await res.json();
-
-      if (newItems.length === 0) {
-        setHasMore(false);
-      } else {
-        setItems((prevItems) => [...prevItems, ...newItems]);
-        setPage((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [page]);
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["storeItems", { searchQuery, activeTags }],
+    queryFn: ({ pageParam = 1 }) =>
+      fetchStoreItems(
+        `q=${searchQuery}&tags=${JSON.stringify(activeTags)}&page=${pageParam}`,
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextCursor || undefined,
+    initialData: {
+      pages: [{ items: initialItems, nextCursor: 2 }],
+      pageParams: [1],
+    },
+  });
 
   useEffect(() => {
-    function handleScroll() {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.body.scrollHeight;
+    const newSearchQuery = userSearchParams.get("q") || "";
+    const newActiveTags = JSON.parse(userSearchParams.get("tags") || "[]");
 
-      if (scrollPosition + windowHeight >= documentHeight) {
-        fetchMoreItems();
-      }
+    if (
+      newSearchQuery !== searchQuery ||
+      JSON.stringify(newActiveTags) !== JSON.stringify(activeTags)
+    ) {
+      setSearchQuery(newSearchQuery);
+      setActiveTags(newActiveTags);
+      refetch();
     }
+  }, [userSearchParams, searchQuery, activeTags, refetch]);
 
-    window.addEventListener("scroll", handleScroll);
+  if (isLoading) {
+    return <LoadingBar />;
+  }
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  if (isError) {
+    return <h1>Error fetching items</h1>;
+  }
+
+  // TODO: Remove the button and add in view infinite scroll
 
   return (
     <>
       <div className="mb-10 flex flex-wrap justify-center gap-10">
-        {items.map((item) => (
-          <MemoItemCard key={item.id} item={item} />
-        ))}
+        {isSuccess && Array.isArray(data?.pages)
+          ? data.pages.flatMap((page, index) =>
+              Array.isArray(page.items) ? (
+                page.items.map((item) => (
+                  <MemoItemCard key={item.id} item={item} />
+                ))
+              ) : (
+                <p key={index}>No items found</p> // Fallback in case page.items is not an array
+              ),
+            )
+          : null}
       </div>
-      {loading && (
-        <div className="flex w-full justify-center">
-          <LoadingBar className="my-10" />
-        </div>
+
+      {hasNextPage && (
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="load-more-btn"
+        >
+          {isFetchingNextPage ? "Loading..." : "Load More"}
+        </button>
       )}
     </>
   );
