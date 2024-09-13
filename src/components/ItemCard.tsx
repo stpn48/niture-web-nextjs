@@ -21,8 +21,14 @@ const variants = {
 };
 
 export function ItemCard({ item }: { item: storeItem }) {
+
+  const navigateToItemDetails = () => {
+    window.location.href = `/itemDetails/${item.id}`;
+  };
+
   return (
     <motion.div
+      onClick={navigateToItemDetails}
       variants={variants}
       initial={"initial"}
       animate={"animate"}
