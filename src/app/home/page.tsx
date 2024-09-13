@@ -1,7 +1,7 @@
 import { AboutSection } from "@/app/home/components/AboutSection";
 import { ClientFeedbackSection } from "@/app/home/components/ClientFeedbackSection";
 import { CollectionsSection } from "@/app/home/components/CollectionsSection";
-import { FeaturedItems } from "@/app/home/components/FeaturedItems";
+import { FeaturedItems } from "@/components/FeaturedItems";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/app/home/components/HeroSection";
 import { NewsletterSignupSection } from "@/app/home/components/NewsletterSignupSection";
