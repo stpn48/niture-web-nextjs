@@ -4,25 +4,17 @@ import { Button } from "@/components/Button";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-type Props = {
-  query: string;
-};
-
-export function SearchBar({ query: initialQuery }: Props) {
-  const [inputValue, setInputValue] = useState(initialQuery);
-
+export function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (inputValue) params.set("q", inputValue);
-      else params.delete("q");
-      router.push(`/store?${params.toString()}`);
-    }, 300);
+  const [inputValue, setInputValue] = useState(searchParams.get("q") || "");
 
-    return () => clearTimeout(timeoutId);
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (inputValue) params.set("q", inputValue);
+    else params.delete("q");
+    router.push(`/store?${params.toString()}`);
   }, [inputValue, router]);
 
   return (
