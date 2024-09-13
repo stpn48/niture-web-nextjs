@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { PT_Serif } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import { ClientWrapper } from "@/components/ClientWrapper";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const ptSerif = PT_Serif({
   subsets: ["latin"],
@@ -22,8 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${ptSerif.className} antialiased`}>
-        <Navbar />
-        {children}
+        <ClientWrapper>
+          <Navbar />
+          {children}
+          <ReactQueryDevtools />
+        </ClientWrapper>
       </body>
     </html>
   );
