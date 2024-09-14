@@ -3,7 +3,6 @@ import { PT_Serif } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { ClientWrapper } from "@/components/ClientWrapper";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Cart } from "@/components/Cart";
 
 const ptSerif = PT_Serif({
@@ -29,7 +28,6 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Cart />
-          <ReactQueryDevtools />
         </ClientWrapper>
       </body>
     </html>
