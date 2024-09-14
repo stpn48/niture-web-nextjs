@@ -17,7 +17,6 @@ export default async function ItemDetailsPage({ params }: Props) {
   const item: storeItem = Array.isArray(itemDetails)
     ? itemDetails[0]
     : itemDetails;
-  console.log(item);
 
   return (
     <div>
