@@ -1,6 +1,6 @@
 "use client";
 
-import { s } from "framer-motion/client";
+import { useCartStore } from "@/zustand/cartStore";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -26,6 +26,8 @@ const navLinks = [
 
 export function Navbar({ navLinksVisible = true }: Props) {
   const searchParams = useSearchParams();
+
+  const { setIsCartOpen } = useCartStore();
 
   useEffect(() => {
     if (searchParams.get("about") === "true") {
@@ -55,7 +57,12 @@ export function Navbar({ navLinksVisible = true }: Props) {
               {link.name}
             </Link>
           ))}
-        <h1 className="cursor-pointer hover:text-[#9c7a54]">Cart</h1>
+        <a
+          className="cursor-pointer hover:text-[#9c7a54]"
+          onClick={() => setIsCartOpen(true)}
+        >
+          Cart
+        </a>
         <img src="/menuImg.svg" alt="logo" className="h-3 w-4 cursor-pointer" />
       </div>
     </div>
