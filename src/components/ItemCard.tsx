@@ -21,7 +21,6 @@ const variants = {
 };
 
 export function ItemCard({ item }: { item: storeItem }) {
-
   const navigateToItemDetails = () => {
     window.location.href = `/itemDetails/${item.id}`;
   };
@@ -32,13 +31,12 @@ export function ItemCard({ item }: { item: storeItem }) {
       variants={variants}
       initial={"initial"}
       animate={"animate"}
-      className="shadow-spread h-[350px] w-[300px] rounded-lg bg-white p-4"
+      className="flex flex-col justify-start shadow-spread h-[350px] w-[300px] cursor-pointer rounded-lg bg-white p-4"
     >
-      <div className="relative h-[190px] w-full overflow-hidden">
+      <div className="relative h-[220px] w-full">
         <Image
           layout="fill"
           objectFit="cover"
-          className="h-full w-full"
           src={item.imgSrc}
           alt={item.name}
         />
