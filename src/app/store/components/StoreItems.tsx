@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchStoreItems } from "@/app/utils/fetchStoreItems";
+import { RenderItems } from "./RenderItems";
 
 const MemoItemCard = React.memo(ItemCard);
 
@@ -73,17 +74,9 @@ export function StoreItems({ initialItems }: Props) {
   return (
     <>
       <div className="mb-10 flex flex-wrap justify-center gap-10">
-        {isSuccess && Array.isArray(data?.pages)
-          ? data.pages.flatMap((page, index) =>
-              Array.isArray(page.items) ? (
-                page.items.map((item) => (
-                  <MemoItemCard key={item.id} item={item} />
-                ))
-              ) : (
-                <p key={index}>No items found</p> // Fallback in case page.items is not an array
-              ),
-            )
-          : null}
+        {isSuccess && Array.isArray(data?.pages) && (
+          <RenderItems pages={data.pages} />
+        )}
       </div>
 
       {hasNextPage && (
