@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { ClientWrapper } from "@/components/ClientWrapper";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Cart } from "@/components/Cart";
 
 const ptSerif = PT_Serif({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
         <ClientWrapper>
           <Navbar />
           {children}
+          <Cart />
           <ReactQueryDevtools />
         </ClientWrapper>
       </body>
