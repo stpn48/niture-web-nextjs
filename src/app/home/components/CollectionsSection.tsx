@@ -5,9 +5,7 @@ import React from "react";
 export async function CollectionsSection() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/collections`);
   const collections: collection[] = await res.json();
-
-  console.log(collections);
-
+  
   return (
     <div className="flex w-full flex-col justify-center gap-40 px-20 py-[60px]">
       <h1 className="-mb-16 flex w-full justify-center text-lg">Collections</h1>
