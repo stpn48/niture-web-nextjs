@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { rateLimit } from "../../../../lib/rateLimit";
+import { middleware } from "../../../../lib/rateLimit";
 
 const STORE_ITEMS = [
   {
@@ -742,7 +742,7 @@ const PAGE_SIZE = 10; // 10 items per page
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
     await new Promise<void>((resolve) => {
-      rateLimit(req, res, () => resolve());
+      middleware(req);
     });
 
     const searchParams = req.nextUrl.searchParams;
