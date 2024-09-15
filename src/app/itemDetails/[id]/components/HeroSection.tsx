@@ -1,17 +1,17 @@
 "use client";
 
 import { storeItem } from "@/app/types";
-import React, { useState } from "react";
-import { DecreaseIncreaseQuantityButtons } from "./DecreaseIncreaseQuantityButtons";
+import React from "react";
+import { QuantityAdjuster } from "@/app/itemDetails/[id]/components/QuantityAdjuster ";
 import { useCartStore } from "@/zustand/cartStore";
 
 type Props = { itemDetails: storeItem };
 
 export function HeroSection({ itemDetails }: Props) {
-  const { getCartItem } = useCartStore();
-  const [quantity, setQuantity] = useState(
-    getCartItem(itemDetails.id)?.quantity || 0,
-  );
+  const { cartItems } = useCartStore();
+
+  const itemIndex = cartItems.findIndex((item) => item.id === itemDetails.id);
+  const itemQuantity = cartItems[itemIndex]?.quantity || 0;
 
   return (
     <div className="flex w-full flex-col items-center justify-center pt-20 md:flex-row">
@@ -20,10 +20,9 @@ export function HeroSection({ itemDetails }: Props) {
         <h1 className="font-bold">{itemDetails.name}</h1>
         <p>{itemDetails.description}</p>
         <p>{itemDetails.price}</p>
-        <DecreaseIncreaseQuantityButtons
+      <QuantityAdjuster
           itemDetails={itemDetails}
-          quantity={quantity}
-          setQuantity={setQuantity}
+          initialQuantity={itemQuantity}
         />
       </div>
     </div>

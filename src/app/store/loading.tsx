@@ -1,13 +1,12 @@
-import { LoadingBar } from "@/components/LoadingBar";
+// app/store/loading.tsx
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import React from "react";
 
-type Props = {};
-
-export default function loading({}: Props) {
+export default function Loading() {
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-2 p-10">
+    <div className="flex w-full flex-col items-center gap-2 pt-20 text-black">
       <h1>Niture</h1>
-      <LoadingBar />
+      <LoadingSpinner />
     </div>
   );
 }

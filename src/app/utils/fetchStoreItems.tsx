@@ -8,6 +8,8 @@ export async function fetchStoreItems(
       `${process.env.NEXT_PUBLIC_API_URL}/api/storeItems?${params}`,
     );
 
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     if (!res.ok) {
       throw new Error("Failed to fetch items");
     }

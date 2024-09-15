@@ -1,7 +1,6 @@
 "use client";
 
-import { ItemCard } from "@/components/ItemCard";
-import { LoadingBar } from "@/components/LoadingBar";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { storeItem } from "@/app/types";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -9,14 +8,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchStoreItems } from "@/app/utils/fetchStoreItems";
 import { RenderItems } from "./RenderItems";
 
-const MemoItemCard = React.memo(ItemCard);
-
 type Props = {
   initialItems: storeItem[];
 };
 
 export function StoreItems({ initialItems }: Props) {
   const userSearchParams = useSearchParams();
+
   const [searchQuery, setSearchQuery] = useState(
     userSearchParams.get("q") || "",
   );
@@ -62,7 +60,7 @@ export function StoreItems({ initialItems }: Props) {
   }, [userSearchParams, searchQuery, activeTags, refetch]);
 
   if (isLoading) {
-    return <LoadingBar />;
+    return <LoadingSpinner />;
   }
 
   if (isError) {

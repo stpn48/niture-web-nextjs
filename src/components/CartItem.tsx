@@ -1,10 +1,10 @@
 "use client";
 
-import { DecreaseIncreaseQuantityButtons } from "@/app/itemDetails/[id]/components/DecreaseIncreaseQuantityButtons";
+import { QuantityAdjuster } from "@/app/itemDetails/[id]/components/QuantityAdjuster ";
 import { cartItem } from "@/app/types";
 import { useCartStore } from "@/zustand/cartStore";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 type Props = {
   itemDetails: cartItem;
@@ -13,11 +13,7 @@ type Props = {
 export function CartItem({ itemDetails }: Props) {
   const router = useRouter();
 
-  const { getCartItem, setIsCartOpen } = useCartStore();
-
-  const [quantity, setQuantity] = useState(
-    getCartItem(itemDetails.id)?.quantity || 0,
-  );
+  const { setIsCartOpen } = useCartStore();
 
   function handleItemClick(itemId: number) {
     router.push(`/itemDetails/${itemId}`);
@@ -27,17 +23,16 @@ export function CartItem({ itemDetails }: Props) {
   return (
     <div
       onClick={() => handleItemClick(itemDetails.id)}
-      className="flex w-full cursor-pointer items-center justify-between rounded-sm border p-4 shadow-sm"
+      className="flex w-full cursor-pointer items-center justify-center gap-8 rounded-sm border p-4 shadow-sm"
     >
       <img src="" alt="itemImg" className="mr-2 h-20 w-20" />
       <div className="flex flex-col items-center gap-3">
-        <h1>{itemDetails.name}</h1>
-        <DecreaseIncreaseQuantityButtons
+        <h1 className="text-center">{itemDetails.name}</h1>
+        <QuantityAdjuster
           itemDetails={itemDetails}
-          quantity={quantity}
-          setQuantity={setQuantity}
+          initialQuantity={itemDetails.quantity}
         />
-        <p>{Number(itemDetails.price) * quantity}</p>
+        <p>${Number(itemDetails.price.slice(1)) * itemDetails.quantity}</p>
       </div>
     </div>
   );
