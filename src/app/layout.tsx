@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { ClientWrapper } from "@/components/ClientWrapper";
 import { Cart } from "@/components/Cart";
+import { OverflowHandler } from "@/components/OverflowHandler";
 
 const ptSerif = PT_Serif({
   subsets: ["latin"],
@@ -23,11 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ptSerif.className} antialiased`}>
+      <body className={`${ptSerif.className} overflow-y-hidden antialiased`}>
         <ClientWrapper>
           <Navbar />
           {children}
           <Cart />
+          <OverflowHandler />
         </ClientWrapper>
       </body>
     </html>
