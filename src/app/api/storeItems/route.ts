@@ -739,9 +739,9 @@ const STORE_ITEMS = [
 
 const PAGE_SIZE = 10; // 10 items per page
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   try {
-    await new Promise<void>((resolve) => {
+    await new Promise<void>(() => {
       middleware(req);
     });
 
