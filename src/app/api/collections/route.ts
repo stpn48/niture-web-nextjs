@@ -1,6 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import next, { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
-import { rateLimit } from "../../../../lib/rateLimit";
 
 const COLLECTIONS = [
   {
@@ -42,14 +41,10 @@ const COLLECTIONS = [
 ];
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  await new Promise<void>((resolve) => {
-    rateLimit(req, res, () => resolve());
-  });
-
-  if (req.method === "GET") {
-    return NextResponse.json(COLLECTIONS);
+  if (req.method === 'GET') {
+    return res.status(200).json(COLLECTIONS);
   } else {
-    res.setHeader("Allow", ["GET"]);
-    res.status(405).end(`Method ${req.method} Not KUNDO`);
+    res.setHeader('Allow', ['GET']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
