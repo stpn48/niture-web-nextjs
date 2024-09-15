@@ -2,8 +2,7 @@
 
 import { useCartStore } from "@/zustand/cartStore";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 
 type Props = {
   navLinksVisible?: boolean;
@@ -25,21 +24,7 @@ const navLinks = [
 ];
 
 export function Navbar({ navLinksVisible = true }: Props) {
-  const searchParams = useSearchParams();
-
   const { setIsCartOpen } = useCartStore();
-
-  useEffect(() => {
-    if (searchParams.get("about") === "true") {
-      window.scrollTo({ behavior: "instant", top: 4050 });
-
-      if (window.innerWidth < 1025) {
-        window.scrollTo({ behavior: "instant", top: 4700 });
-      }
-    } else if (searchParams.get("contact") === "true") {
-      window.scrollTo({ behavior: "instant", top: 99999 });
-    }
-  }, [searchParams]);
 
   return (
     <div className="fixed z-10 flex h-fit w-full items-center justify-between bg-white px-5 py-2">
@@ -48,7 +33,7 @@ export function Navbar({ navLinksVisible = true }: Props) {
       </Link>
       <div className="flex items-center gap-4">
         {navLinksVisible &&
-          navLinks.map((link, linkIndex) => (
+          navLinks.map((link) => (
             <Link
               className="hover:text-[#9c7a54]"
               key={link.name}
