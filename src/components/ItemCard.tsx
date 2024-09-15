@@ -4,6 +4,7 @@ import { storeItem } from "@/app/types";
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const variants = {
   initial: {
@@ -21,8 +22,10 @@ const variants = {
 };
 
 export function ItemCard({ item }: { item: storeItem }) {
+  const router = useRouter();
+
   const navigateToItemDetails = () => {
-    window.location.href = `/itemDetails/${item.id}`;
+    router.push(`/itemDetails/${item.id}`);
   };
 
   return (
@@ -31,7 +34,7 @@ export function ItemCard({ item }: { item: storeItem }) {
       variants={variants}
       initial={"initial"}
       animate={"animate"}
-      className="flex flex-col justify-start shadow-spread h-[350px] w-[300px] cursor-pointer rounded-lg bg-white p-4"
+      className="shadow-spread flex h-[350px] w-[300px] cursor-pointer flex-col justify-start rounded-lg bg-white p-4"
     >
       <div className="relative h-[220px] w-full">
         <Image
