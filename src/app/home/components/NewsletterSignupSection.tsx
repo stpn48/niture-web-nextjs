@@ -1,9 +1,7 @@
 import React from "react";
 import { Button } from "@/components/Button";
 
-type Props = {};
-
-export function NewsletterSignupSection({}: Props) {
+export function NewsletterSignupSection() {
   return (
     <div className="secondary-section-bg flex flex-col items-center gap-4 py-[60px]">
       <h1 className="text-lg font-bold">Sign Up for Our Newsletter</h1>

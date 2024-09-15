@@ -1,4 +1,4 @@
-import next, { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import { rateLimit } from "../../../../lib/rateLimit";
 

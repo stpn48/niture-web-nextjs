@@ -1,9 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-type Props = {};
-
-export function ShowcaseSection({}: Props) {
+export function ShowcaseSection() {
   return (
     <div className="mt-[80px] flex h-fit w-full flex-col items-center justify-center py-[60px] lg:h-[700px]">
       <div className="relative w-fit lg:w-[800px]">

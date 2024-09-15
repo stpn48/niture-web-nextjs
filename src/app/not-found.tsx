@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-export default function NotFound({}: Props) {
+export default function NotFound() {
   return (
     <div className="flex h-screen w-screen items-center justify-center">
       <h1>404 Page Not Found.</h1>

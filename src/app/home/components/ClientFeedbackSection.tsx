@@ -38,10 +38,8 @@ export function ClientFeedbackSection() {
       </h1>
       <div className="secondary-text-color flex flex-wrap justify-center gap-16">
         {reviews.map((review) => (
-          <div className="flex w-[250px] flex-col gap-5">
-            <p key={review.id} className="text-justify italic">
-              "{review.review}"
-            </p>
+          <div key={review.id} className="flex w-[250px] flex-col gap-5">
+            <p className="text-justify italic">&quot;{review.review}&quot;</p>
             <h2 className="not-italic text-black">-{review.name}</h2>
           </div>
         ))}
