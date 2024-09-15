@@ -1,12 +1,12 @@
 "use client";
 
-import { cartItem } from "@/app/types";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { motion } from "framer-motion";
 import { useCartStore } from "@/zustand/cartStore";
-import { useEffect, useMemo, useState } from "react";
 import { Button } from "./Button";
-import { CartItem } from "./CartItem";
+import { CartItems } from "./CartItems";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { cartItem } from "@/app/types";
 
 const variants = {
   initial: {
@@ -20,16 +20,16 @@ const variants = {
 };
 
 export function Cart() {
+  const { isCartOpen, setIsCartOpen } = useCartStore();
   const { setItem, getItem } = useLocalStorage();
-  const { cartItems, setCartItems, isCartOpen, setIsCartOpen } = useCartStore();
+  const { cartItems, setCartItems } = useCartStore();
 
   const [loading, setLoading] = useState(true);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const totalPrice = useMemo(() => {
-    return cartItems.reduce((acc, item) => acc + Number(item.price), 0);
-  }, [cartItems]);
-
+  // get cart items from local storage on mount
   useEffect(() => {
+    console.log("getting cart items from local storage");
     const storedCartItems: cartItem[] = JSON.parse(
       getItem("cartItems") || "[]",
     );
@@ -37,11 +37,17 @@ export function Cart() {
     setLoading(false);
   }, []);
 
+  // update cart items in local storage every time cartItems state changes
   useEffect(() => {
+    console.log("cart items changed")
     if (!loading) {
       setItem("cartItems", JSON.stringify(cartItems));
     }
+    setTotalPrice(
+      cartItems.reduce((acc, item) => acc + Number(item.price.slice(1)) * item.quantity, 0),
+    ); // slice to remove the $ sign on first index
   }, [cartItems, loading]);
+
 
   return (
     <>
@@ -57,15 +63,11 @@ export function Cart() {
             animate="animate"
             className="fixed right-0 top-0 z-20 flex h-screen w-[350px] flex-col items-center justify-start bg-white py-6 opacity-100"
           >
-            <div className="flex w-full px-6 flex-col gap-4">
-              {cartItems.map((item) => (
-                <CartItem key={item.id} itemDetails={item} />
-              ))}
-            </div>
-            <div className="flex flex-col gap-2">
+            <CartItems />
+            <div className="flex pt-4 flex-col shadow-md gap-2 secondary-section-bg w-full items-center px-4">
               <h1>Total</h1>
               <p className="font-bold">${totalPrice}</p>
-              <Button>Pay</Button>
+              <Button className="w-full">Pay</Button>
             </div>
           </motion.div>
         </>
